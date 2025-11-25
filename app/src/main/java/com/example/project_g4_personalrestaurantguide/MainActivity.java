@@ -1,6 +1,8 @@
 package com.example.project_g4_personalrestaurantguide;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -51,10 +53,13 @@ public class MainActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        addRestaurantBtn.setOnClickListener(v -> {
-            // TODO: Open Add Restaurant screen or dialog
+        addRestaurantBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddEditRestaurantActivity.class);
+                startActivity(intent);
+            }
         });
-
 
     }
 
