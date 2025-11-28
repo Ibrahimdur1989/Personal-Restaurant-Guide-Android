@@ -11,39 +11,52 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- Restaurant Details -->
         <activity
             android:name=".RestaurantDetails"
             android:exported="false" />
+
+        <!-- Add/Edit Restaurant -->
         <activity
             android:name=".AddEditRestaurantActivity"
             android:exported="false" />
+
+        <!-- Base Activity -->
         <activity
             android:name=".BaseActivity"
             android:exported="false" />
+
+        <!-- About Screen -->
         <activity
             android:name=".AboutActivity"
             android:exported="false" />
+
+        <!-- Search Screen -->
         <activity
             android:name=".SearchActivity"
             android:exported="false" />
+
+        <!-- FULL SCREEN MAP (YOUR PART) -->
+        <activity
+            android:name=".MapActivity"
+            android:exported="true" />
+
+        <!-- Splash Screen - ONLY LAUNCHER -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Main Screen (NO LAUNCHER, opens after Splash) -->
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

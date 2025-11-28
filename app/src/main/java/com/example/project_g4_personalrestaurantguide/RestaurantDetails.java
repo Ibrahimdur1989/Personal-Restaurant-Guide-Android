@@ -47,9 +47,11 @@ public class RestaurantDetails extends BaseActivity {
         });
 
 
-        buttonShowMap.setOnClickListener(v ->
-                Toast.makeText(this, "Show on map clicked", Toast.LENGTH_SHORT).show()
-        );
+        buttonShowMap.setOnClickListener(v -> {
+            Toast.makeText(this, "Show on map clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(RestaurantDetails.this, MapActivity.class);
+            startActivity(intent);
+        });
 
 
         buttonDirections.setOnClickListener(v ->

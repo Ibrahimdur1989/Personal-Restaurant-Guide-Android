@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Project_G4_PersonalRestaurantGuide</string>
     <string name="app_title">Personal Restaurant Guide</string>
-    <string name="app_subtitle">\"Your personal restaurant diary\"</string>
+    <string name="app_subtitle">"Your personal restaurant diary"</string>
     <string name="app_copyright">© 2025 Personal Restaurant Guide</string>
     <string name="my_res">My restaurants:</string>
     <string name="addRestaurantBtn">Add restaurant</string>
@@ -11,4 +11,10 @@
     <string name="delete">Delete</string>
     <string name="search">Search</string>
     <string name="about">About</string>
+    <string name="map_view_title">Map View</string>
+    <string name="map_placeholder_description">Map showing restaurant location</string>
+    <string name="get_directions">Get Directions</string>
+    <string name="back_button">Back to restaurant details</string>
+    <string name="menu_more">More options</string>
+
 </resources>
