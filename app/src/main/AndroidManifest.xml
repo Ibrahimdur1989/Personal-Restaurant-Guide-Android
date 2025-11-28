@@ -37,12 +37,12 @@
             android:name=".SearchActivity"
             android:exported="false" />
 
-        <!-- FULL SCREEN MAP (YOUR PART) -->
+        <!-- FULL SCREEN MAP -->
         <activity
             android:name=".MapActivity"
             android:exported="true" />
 
-        <!-- Splash Screen - ONLY LAUNCHER -->
+        <!-- Splash Screen-->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -52,7 +52,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Main Screen (NO LAUNCHER, opens after Splash) -->
+        <!-- Main Screen-->
         <activity
             android:name=".MainActivity"
             android:exported="true" />
