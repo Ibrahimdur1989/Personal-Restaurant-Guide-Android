@@ -9,8 +9,11 @@ import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.project_g4_personalrestaurantguide.roomDb.RestaurantViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +22,7 @@ public class MainActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private RestaurantAdapter adapter;
-    private List<Restaurant> restaurantList;
+    private RestaurantViewModel viewModel;
     private Button addRestaurantBtn;
 
     @Override
@@ -39,26 +42,22 @@ public class MainActivity extends BaseActivity {
         recyclerView = findViewById(R.id.restaurantRecyclerView);
         addRestaurantBtn = findViewById(R.id.addRestaurantBtn);
 
-        // Sample data for now
-        restaurantList = new ArrayList<>();
-        restaurantList.add(new Restaurant("Pizza Place", "Toronto", new String[]{"Italian", "Vegan"}, 4.5f, R.drawable.img));
-        restaurantList.add(new Restaurant("Sushi Spot", "Vancouver", new String[]{"Japanese", "Non-Veg"}, 4.0f, R.drawable.img));
-
-        adapter = new RestaurantAdapter(restaurantList, position -> {
-            // Handle delete button click
-            restaurantList.remove(position);
-            adapter.notifyItemRemoved(position);
-        });
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // ViewModel
+        viewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
+
+        // Adapter
+        adapter = new RestaurantAdapter(this, viewModel);
         recyclerView.setAdapter(adapter);
 
-        addRestaurantBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddEditRestaurantActivity.class);
-                startActivity(intent);
-            }
+        //Observe DB
+        viewModel.getAllRestaurants().observe(this, restaurants -> {
+            adapter.setRestaurants(restaurants);
+        });
+
+        addRestaurantBtn.setOnClickListener(v -> {
+            startActivity(new Intent(this, AddEditRestaurantActivity.class));
         });
 
     }

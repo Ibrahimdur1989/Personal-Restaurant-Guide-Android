@@ -34,29 +34,36 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"/>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:paddingTop="4dp"
+                android:weightSum="10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/restaurantTags"
                     android:text="@string/tags"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <View
-                    android:layout_height="1dp"
                     android:layout_width="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
 
                 <TextView
                     android:id="@+id/location"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="end"
                     android:text="@string/location" />
 
             </LinearLayout>
@@ -67,7 +74,11 @@
                 android:stepSize="0.5"
                 android:rating="4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:progressTint="@color/yellow"
+                android:secondaryProgressTint="@color/yellow"
+                android:indeterminateTint="@color/yellow"
+                />
 
         </LinearLayout>
 
