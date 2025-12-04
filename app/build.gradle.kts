@@ -43,4 +43,23 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Room components
+    implementation("androidx.room:room-runtime:2.8.2")
+    annotationProcessor("androidx.room:room-compiler:2.8.2")
+
+    // Lifecycle components
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.9.4")
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata:2.9.4")
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation("androidx.lifecycle:lifecycle-runtime:2.9.4")
+
+    // Saved state module for ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.9.4")
+
+    // Annotation processor
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.9.4")
+
 }
