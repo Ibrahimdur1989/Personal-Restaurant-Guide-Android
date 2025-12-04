@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_g4_personalrestaurantguide.roomDb.Restaurant;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,39 +43,39 @@ public class SearchActivity extends BaseActivity {
         searchEditText = findViewById(R.id.searchEditText);
 
         restaurantList = new ArrayList<>();
-        restaurantList.add(new Restaurant(
-                "Pizza Place",
-                "Toronto",
-                new String[]{"Italian", "Vegan"},
-                4.5f,
-                R.drawable.img
-        ));
-        restaurantList.add(new Restaurant(
-                "Sushi Spot",
-                "Vancouver",
-                new String[]{"Japanese", "Non-Veg"},
-                4.0f,
-                R.drawable.img
-        ));
-        restaurantList.add(new Restaurant(
-                "Hakka Garden Chinese Restaurant",
-                "East York",
-                new String[]{"Chinese"},
-                4.0f,
-                R.drawable.img
-        ));
-        restaurantList.add(new Restaurant(
-                "Mandi Afandi",
-                "East York",
-                new String[]{"Middle East"},
-                3.5f,
-                R.drawable.img
-        ));
+//        restaurantList.add(new Restaurant(
+//                "Pizza Place",
+//                "Toronto",
+//                new String[]{"Italian", "Vegan"},
+//                4.5f,
+//                R.drawable.img
+//        ));
+//        restaurantList.add(new Restaurant(
+//                "Sushi Spot",
+//                "Vancouver",
+//                new String[]{"Japanese", "Non-Veg"},
+//                4.0f,
+//                R.drawable.img
+//        ));
+//        restaurantList.add(new Restaurant(
+//                "Hakka Garden Chinese Restaurant",
+//                "East York",
+//                new String[]{"Chinese"},
+//                4.0f,
+//                R.drawable.img
+//        ));
+//        restaurantList.add(new Restaurant(
+//                "Mandi Afandi",
+//                "East York",
+//                new String[]{"Middle East"},
+//                3.5f,
+//                R.drawable.img
+//        ));
 
 
         filteredList = new ArrayList<>(restaurantList);
 
-        adapter = new RestaurantAdapter(filteredList, null);
+        //adapter = new RestaurantAdapter(filteredList, null);
         searchRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         searchRecyclerView.setAdapter(adapter);
 
@@ -104,15 +106,15 @@ public class SearchActivity extends BaseActivity {
             String lowerQuery = query.toLowerCase().trim();
 
             for (Restaurant restaurant : restaurantList) {
-                String name = restaurant.getName().toLowerCase();
-                String location = restaurant.getLocation().toLowerCase();
-                String tagsJoined = TextUtils.join(", ", restaurant.getTags()).toLowerCase();
+//                String name = restaurant.getName().toLowerCase();
+//                String location = restaurant.getLocation().toLowerCase();
+//                String tagsJoined = TextUtils.join(", ", restaurant.getTags()).toLowerCase();
 
-                if (name.contains(lowerQuery)
-                        || location.contains(lowerQuery)
-                        || tagsJoined.contains(lowerQuery)) {
-                    filteredList.add(restaurant);
-                }
+//                if (name.contains(lowerQuery)
+//                        || location.contains(lowerQuery)
+//                        || tagsJoined.contains(lowerQuery)) {
+//                    filteredList.add(restaurant);
+//                }
             }
         }
 

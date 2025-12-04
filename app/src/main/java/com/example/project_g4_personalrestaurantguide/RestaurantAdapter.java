@@ -15,21 +15,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.project_g4_personalrestaurantguide.roomDb.Restaurant;
+import com.example.project_g4_personalrestaurantguide.roomDb.RestaurantViewModel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.RestaurantViewHolder> {
 
-    private List<Restaurant> restaurantList;
-    private OnDeleteClickListener deleteClickListener;
+    private List<Restaurant> restaurantList = new ArrayList<>();
+
+    private RestaurantViewModel viewModel;
     private Context context;
 
-    public interface OnDeleteClickListener {
-        void onDeleteClick(int position);
+
+    public RestaurantAdapter(Context context, RestaurantViewModel viewModel) {
+        this.context = context;
+        this.viewModel = viewModel;
     }
 
-    public RestaurantAdapter(List<Restaurant> restaurantList, OnDeleteClickListener listener) {
-        this.restaurantList = restaurantList;
-        this.deleteClickListener = listener;
+    public void setRestaurants(List<Restaurant> restaurants){
+        this.restaurantList = restaurants;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -42,13 +49,14 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
 
     @Override
     public void onBindViewHolder(@NonNull RestaurantViewHolder holder, int position) {
+
         Restaurant restaurant = restaurantList.get(position);
-        holder.name.setText(restaurant.getName());
-        holder.location.setText(restaurant.getLocation());
-        String[] tagsArray = restaurant.getTags();
-        holder.tags.setText(TextUtils.join(", ", tagsArray));
-        holder.ratingBar.setRating(restaurant.getRating());
-        holder.imageView.setImageResource(restaurant.getImageResId());
+
+        holder.name.setText(restaurant.name);
+        holder.location.setText(restaurant.address);
+        holder.tags.setText(restaurant.tags);
+        holder.ratingBar.setRating(restaurant.rating);
+        holder.imageView.setImageResource(R.drawable.img);
 
         // Initially hide delete button
         holder.deleteBtn.setVisibility(View.INVISIBLE);
@@ -56,11 +64,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
         // Tap card -> open details/edit activity
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), RestaurantDetails.class);
-            intent.putExtra("restaurant_name", restaurant.getName());
-            intent.putExtra("restaurant_location", restaurant.getLocation());
-            intent.putExtra("restaurant_tags", restaurant.getTags());
-            intent.putExtra("restaurant_rating", restaurant.getRating());
-            intent.putExtra("restaurant_image", restaurant.getImageResId());
+            intent.putExtra("restaurant_id", restaurant.id);
             v.getContext().startActivity(intent);
         });
 
@@ -74,17 +78,14 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
             return true; //Consume long press
         });
 
-        // Delete Button click - remove restaurant
+        // Delete from DB
         holder.deleteBtn.setOnClickListener(v -> {
-            if (deleteClickListener != null) {
-                deleteClickListener.onDeleteClick(position);
-            }
+            viewModel.delete(restaurant);
         });
     }
 
     @Override
     public int getItemCount() {
-
         return restaurantList.size();
     }
 
