@@ -24,7 +24,6 @@ public interface RestaurantDao {
     @Query("SELECT * FROM restaurants ORDER BY name ASC")
     LiveData<List<Restaurant>> getAll();
 
-    // 🔥 반드시 LiveData<Restaurant> 이어야 한다!!
     @Query("SELECT * FROM restaurants WHERE id = :id LIMIT 1")
     LiveData<Restaurant> getById(int id);
 

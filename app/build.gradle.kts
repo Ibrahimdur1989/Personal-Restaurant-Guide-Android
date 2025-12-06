@@ -62,4 +62,6 @@ dependencies {
     // Annotation processor
     implementation("androidx.lifecycle:lifecycle-common-java8:2.9.4")
 
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+
 }

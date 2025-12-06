@@ -5,65 +5,83 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class MapActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+public class MapActivity extends BaseActivity implements OnMapReadyCallback {
+
+    private double latitude;
+    private double longitude;
+    private String name;
     private Button btnGetDirections;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        toolbar = findViewById(R.id.toolbar);
         btnGetDirections = findViewById(R.id.btn_get_directions);
 
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // Toolbar
+        setupToolbar("Map Screen", true);
+
+        // Get values from Intent
+        latitude = getIntent().getDoubleExtra("latitude", 0.0);
+        longitude = getIntent().getDoubleExtra("longitude", 0.0);
+        name = getIntent().getStringExtra("name");
+
+        if (latitude == 0.0 && longitude == 0.0) {
+            Toast.makeText(this, "Location not available", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
 
+        // Load map fragment
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
+
+        // Directions Button
         btnGetDirections.setOnClickListener(v -> {
-            double latitude = getIntent().getDoubleExtra("lat", 0.0);
-            double longitude = getIntent().getDoubleExtra("lng", 0.0);
-
-            if (latitude == 0.0 && longitude == 0.0) {
-                android.widget.Toast.makeText(this, "Location not available", android.widget.Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&destination=" + latitude + "," + longitude);
+            Uri uri = Uri.parse("google.navigation:q=" + latitude + "," + longitude);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
+            intent.setPackage("com.google.android.apps.maps");
+
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                Uri fallback = Uri.parse("geo:" + latitude + "," + longitude);
+                startActivity(new Intent(Intent.ACTION_VIEW, fallback));
+            }
         });
     }
 
+    // Display map
     @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng restaurantLocation = new LatLng(latitude, longitude);
+
+        // Add marker at restaurant location
+        googleMap.addMarker(new MarkerOptions()
+                .position(restaurantLocation)
+                .title(name != null ? name : "Restaurant"));
+
+        // Move camera to restaurant
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(restaurantLocation, 17f));
+
+        // disable auto-centering on user location
+        googleMap.setOnMyLocationChangeListener(null);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        } else if (id == R.id.action_search) {
-            startActivity(new Intent(this, SearchActivity.class));
-            return true;
-        } else if (id == R.id.action_about) {
-            startActivity(new Intent(this, AboutActivity.class));
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyATYhM80rL6QnY3wTBup85kyZyOY-O6nkE"/>
+
         <!-- Restaurant Details -->
         <activity
             android:name=".RestaurantDetails"
@@ -20,6 +24,7 @@
         <!-- Add/Edit Restaurant -->
         <activity
             android:name=".AddEditRestaurantActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
             android:exported="false" />
 
         <!-- Base Activity -->

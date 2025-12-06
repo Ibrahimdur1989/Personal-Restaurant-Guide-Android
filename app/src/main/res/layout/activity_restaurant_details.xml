@@ -106,9 +106,9 @@
                 android:isIndicator="true"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
-                android:progressTint="@color/toolbar_green"
-                android:secondaryProgressTint="@color/toolbar_green"
-                android:indeterminateTint="@color/toolbar_green"
+                android:progressTint="@color/yellow"
+                android:secondaryProgressTint="@color/yellow"
+                android:indeterminateTint="@color/yellow"
                 android:layout_marginBottom="22dp" />
 
             <!-- Divider -->
