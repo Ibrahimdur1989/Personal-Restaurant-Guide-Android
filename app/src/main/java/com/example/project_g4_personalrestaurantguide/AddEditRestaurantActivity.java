@@ -2,6 +2,8 @@ package com.example.project_g4_personalrestaurantguide;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
