@@ -62,6 +62,9 @@ public class AddEditRestaurantActivity extends BaseActivity {
             return insets;
         });
 
+        // Toolbar
+        setupToolbar("Add/Edit Restaurant", true);
+
         // Bind views
         editName = findViewById(R.id.editName);
         editAddress = findViewById(R.id.editAddress);

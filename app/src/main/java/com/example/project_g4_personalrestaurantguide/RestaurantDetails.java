@@ -178,44 +178,56 @@ public class RestaurantDetails extends BaseActivity {
 
         // SHOW ON MAP -> geo URI
         buttonShowMap.setOnClickListener(v -> {
-            if (currentRestaurant == null) return;
-
-            String addr = currentRestaurant.address;
-            if (addr == null || addr.isEmpty()) {
-                Toast.makeText(this, "Address is empty.", Toast.LENGTH_SHORT).show();
+            if (currentRestaurant == null) {
+                Toast.makeText(this, "Restaurant not loaded yet.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            Uri uri = Uri.parse("geo:0,0?q=" + Uri.encode(addr));
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
-            mapIntent.setPackage("com.google.android.apps.maps");
+            double lat = currentRestaurant.latitude;
+            double lng = currentRestaurant.longitude;
 
-            try {
-                startActivity(mapIntent);
-            } catch (Exception e) {
-                // Fallback: open any maps app
-                mapIntent.setPackage(null);
-                startActivity(mapIntent);
+            if (lat == 0.0 && lng == 0.0) {
+                Toast.makeText(this, "Location not available for this restaurant.", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            Intent intent = new Intent(RestaurantDetails.this, MapActivity.class);
+            intent.putExtra("latitude", lat);
+            intent.putExtra("longitude", lng);
+            intent.putExtra("name", currentRestaurant.name);   // optional, for marker title
+            startActivity(intent);
         });
 
         // GET DIRECTIONS -> navigation URI
         buttonDirections.setOnClickListener(v -> {
             if (currentRestaurant == null) return;
 
-            String addr = currentRestaurant.address;
-            if (addr == null || addr.isEmpty()) {
-                Toast.makeText(this, "Address is empty.", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            double lat = currentRestaurant.latitude;
+            double lng = currentRestaurant.longitude;
 
-            Uri uri = Uri.parse("google.navigation:q=" + Uri.encode(addr));
-            Intent navIntent = new Intent(Intent.ACTION_VIEW, uri);
-            navIntent.setPackage("com.google.android.apps.maps");
+            Intent navIntent;
+
+            if (lat != 0.0 && lng != 0.0) {
+                // Prefer precise coordinates
+                Uri uri = Uri.parse("google.navigation:q=" + lat + "," + lng);
+                navIntent = new Intent(Intent.ACTION_VIEW, uri);
+                navIntent.setPackage("com.google.android.apps.maps");
+            } else {
+                // Use address if coords missing
+                String addr = currentRestaurant.address;
+                if (addr == null || addr.isEmpty()) {
+                    Toast.makeText(this, "Location not available for this restaurant.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Uri uri = Uri.parse("google.navigation:q=" + Uri.encode(addr));
+                navIntent = new Intent(Intent.ACTION_VIEW, uri);
+                navIntent.setPackage("com.google.android.apps.maps");
+            }
 
             try {
                 startActivity(navIntent);
             } catch (Exception e) {
+                // Last fallback: let Android choose any maps app
                 navIntent.setPackage(null);
                 startActivity(navIntent);
             }
@@ -246,3 +258,4 @@ public class RestaurantDetails extends BaseActivity {
         });
     }
 }
+

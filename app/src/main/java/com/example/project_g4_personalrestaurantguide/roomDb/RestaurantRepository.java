@@ -45,7 +45,6 @@ public class RestaurantRepository {
         return restaurantDao.searchByTag(tag);
     }
 
-    // 🔥 Add/Edit/Details 화면에서 가장 중요
     public LiveData<Restaurant> getById(int id) {
         return restaurantDao.getById(id);
     }
