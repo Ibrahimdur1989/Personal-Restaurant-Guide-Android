@@ -39,6 +39,25 @@
             android:background="#DFDFDF"
             android:paddingBottom="12dp"/>
 
+        <TextView
+            android:id="@+id/shortDesc1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Short Description:"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:paddingTop="10dp"/>
+
+        <TextView
+            android:id="@+id/shortDesc2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A simple restaurant guide that lets users add their favourite places, view and edit their details, and quickly access each restaurant's address."
+            android:textSize="16dp"
+            android:paddingTop="10dp"/>
+
+
+
 
         <TextView
             android:layout_width="wrap_content"
