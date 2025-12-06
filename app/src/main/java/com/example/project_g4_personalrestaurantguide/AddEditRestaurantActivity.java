@@ -1,6 +1,8 @@
 package com.example.project_g4_personalrestaurantguide;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,12 +18,16 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.project_g4_personalrestaurantguide.roomDb.Restaurant;
 import com.example.project_g4_personalrestaurantguide.roomDb.RestaurantViewModel;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * Add/Edit Restaurant screen.
  * - User can type all fields.
  * - Validates required fields and tags format.
  * - Saves restaurant into Room database using ViewModel.
- * - For now, latitude/longitude are set to 0 (no geocoding).
+ * - Latitude/longitude are resolved from the address using Geocoder (if possible).
  */
 public class AddEditRestaurantActivity extends BaseActivity {
 
@@ -70,21 +76,21 @@ public class AddEditRestaurantActivity extends BaseActivity {
         restaurantViewModel = new ViewModelProvider(this)
                 .get(RestaurantViewModel.class);
 
-        //  mode & id
+        // Determine mode & id (add vs edit)
         Intent intent = getIntent();
         if (intent != null && "edit".equals(intent.getStringExtra("mode"))) {
             mode = "edit";
             restaurantId = intent.getIntExtra("restaurant_id", -1);
         }
 
-        // Toolbar
+        // Toolbar title
         if ("edit".equals(mode)) {
             setupToolbar("Edit Restaurant", true);
         } else {
             setupToolbar("Add Restaurant", true);
         }
 
-
+        // If editing, load existing restaurant from DB
         if ("edit".equals(mode) && restaurantId != -1) {
             restaurantViewModel.getRestaurantById(restaurantId)
                     .observe(this, restaurant -> {
@@ -112,7 +118,7 @@ public class AddEditRestaurantActivity extends BaseActivity {
 
     /**
      * Collects data from inputs, validates it, and inserts/updates a Restaurant in DB.
-     * No geocoding here: latitude/longitude are default 0.
+     * Uses Geocoder to try to resolve latitude/longitude from the address.
      */
     private void saveRestaurant() {
         String name = editName.getText().toString().trim();
@@ -143,14 +149,12 @@ public class AddEditRestaurantActivity extends BaseActivity {
             return;
         }
 
-        // 3. Restaurant object (add vs edit)
+        // 3. Prepare Restaurant object (add vs edit)
         Restaurant restaurant;
         if ("edit".equals(mode) && currentRestaurant != null) {
-            // edit
-            restaurant = currentRestaurant;
+            restaurant = currentRestaurant; // update existing
         } else {
-            // add new restaurant
-            restaurant = new Restaurant();
+            restaurant = new Restaurant();  // create new
         }
 
         restaurant.name = name;
@@ -160,11 +164,29 @@ public class AddEditRestaurantActivity extends BaseActivity {
         restaurant.tags = tags;
         restaurant.rating = rating;
 
-        // 4. Latitude / longitude
-        restaurant.latitude = 0.0;
-        restaurant.longitude = 0.0;
+        // 4. Resolve latitude / longitude from address using Geocoder
+        double latitude = 0.0;
+        double longitude = 0.0;
 
-        // 5. Save DB (insert or update)
+        if (!address.isEmpty()) {
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            try {
+                List<Address> results = geocoder.getFromLocationName(address, 1);
+                if (results != null && !results.isEmpty()) {
+                    Address addr = results.get(0);
+                    latitude = addr.getLatitude();
+                    longitude = addr.getLongitude();
+                }
+            } catch (IOException e) {
+                // Geocoding failed (no network / service down) – keep 0,0
+                e.printStackTrace();
+            }
+        }
+
+        restaurant.latitude = latitude;
+        restaurant.longitude = longitude;
+
+        // 5. Save into DB (insert or update)
         if ("edit".equals(mode)) {
             restaurantViewModel.update(restaurant);
         } else {
