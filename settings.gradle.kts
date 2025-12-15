@@ -12,12 +12,12 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
     }
 }
 
-rootProject.name = "Project_G4_PersonalRestaurantGuide"
+rootProject.name = "Personal-Restaurant-Guide-Android"
 include(":app")

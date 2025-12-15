@@ -14,7 +14,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyATYhM80rL6QnY3wTBup85kyZyOY-O6nkE"/>
+            android:value="${MAPS_API_KEY}"/>
 
         <!-- Restaurant Details -->
         <activity

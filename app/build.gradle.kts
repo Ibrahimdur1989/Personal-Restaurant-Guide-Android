@@ -1,6 +1,17 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
 }
+
+val apiKeyPropertiesFile = rootProject.file("apikey.properties")
+val apiKeyProperties = Properties().apply {
+    if (apiKeyPropertiesFile.exists()) {
+        load(apiKeyPropertiesFile.inputStream())
+    }
+}
+
+val mapsApiKey: String = apiKeyProperties.getProperty("MAPS_API_KEY") ?: ""
 
 android {
     namespace = "com.example.project_g4_personalrestaurantguide"
@@ -14,6 +25,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
     }
 
     buildTypes {
@@ -63,5 +75,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common-java8:2.9.4")
 
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.android.gms:play-services-location-license:12.0.1")
 
 }

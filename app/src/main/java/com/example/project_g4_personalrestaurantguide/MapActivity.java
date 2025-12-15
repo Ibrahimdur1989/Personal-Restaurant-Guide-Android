@@ -32,7 +32,17 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
         btnGetDirections = findViewById(R.id.btn_get_directions);
 
         // Toolbar
-        setupToolbar("Map Screen", true);
+        // setupToolbar("Map Screen", true);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Map Screen");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(v -> {
+            finish();
+        });
 
         // Get values from Intent
         latitude = getIntent().getDoubleExtra("latitude", 0.0);
@@ -82,6 +92,21 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
 
         // disable auto-centering on user location
         googleMap.setOnMyLocationChangeListener(null);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
