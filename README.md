@@ -9,6 +9,20 @@ An Android application that allows users to save and manage their favorite resta
 - Get directions using Google Maps
 - Local data storage using Room Database
 
+## Screenshots
+
+### Splash Screen
+![Splash Screen](screenshots/splash_screen.png)
+
+### Main Screen
+![Main Screen](screenshots/main_screen.png)
+
+### Restaurant Details 
+![Restaurant Details](screenshots/restaurant_details.png)
+
+### Map Screen 
+![Map Screen](screenshots/map_screen.png)
+
 
 ## Technologies Used
 - Java
